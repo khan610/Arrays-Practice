@@ -82,12 +82,64 @@ const displayMovements = function (movements) {
 };
 displayMovements(account1.movements);
 
-const eurToUsd = 1.1;
+const createUsernames = function (accs) {
+  accs.forEach(function (acc) {
+    acc.username = acc.owner
+      .toLowerCase()
+      .split(' ')
+      .map(name => name[0])
+      .join('');
+  });
+};
 
-const movementsUSD = movements.map(function (mov) {
-  return mov * eurToUsd;
+createUsernames(accounts);
+
+/////////////////// Filter
+
+const deposits = movements.filter(function (mov) {
+  return mov > 0;
 });
 
+console.log(movements);
+console.log(deposits);
+
+const depositsFor = [];
+for (const mov of movements) if (mov > 0) depositsFor.push(mov);
+console.log(depositsFor);
+
+const withdrawals = movements.filter(mov => mov < 0);
+
+//////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+//// LECTURES
+
+// const eurToUsd = 1.1;
+
+// // Modern way
+// const movementsUSD2 = movements.map(function (mov) {
+//   return mov * eurToUsd;
+// });
+
+// // Arrow way some people dont like, but Jonas prefer
+// const movementsUSD = movements.map(mov => mov * eurToUsd);
+
+// console.log(movements);
+// console.log(movementsUSD);
+
+// // Works but wrong way
+// const movementsUSDfor = [];
+// for (const mov of movements) movementsUSDfor.push(mov * eurToUsd);
+
+// console.log(movementsUSDfor);
+
+// const movementsDescriptions = movements.map(
+//   (mov, i) =>
+//     `Movement ${i + 1}: You ${mov > 0 ? 'deposited' : 'withdrew'} ${Math.abs(
+//       mov
+//     )}`
+// );
+
+// console.log(movementsDescriptions);
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
