@@ -90,6 +90,29 @@ const calcDisplayBalance = function (movements) {
 };
 calcDisplayBalance(account1.movements);
 
+const calcDisplaySummary = function (movements) {
+  const incomes = movements
+    .filter(mov => mov > 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumIn.textContent = `${incomes}EUR`;
+
+  const out = movements
+    .filter(mov => mov < 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumOut.textContent = `${Math.abs(out)}EUR`;
+
+  const interest = movements
+    .filter(mov => mov > 0)
+    .map(deposit => (deposit * 1.2) / 100)
+    .filter((int, i, arr) => {
+      console.log(arr);
+      return int >= 1;
+    })
+    .reduce((acc, int) => acc + int, 0);
+  labelSumIn.textContent = `${interest}EUR`;
+};
+calcDisplaySummary(account1.movements);
+
 const createUsernames = function (accs) {
   accs.forEach(function (acc) {
     acc.username = acc.owner
@@ -140,6 +163,27 @@ const max = movements.reduce((acc, mov) => {
 }, movements[0]);
 console.log(max);
 
+const eurToUsd = 1.1;
+
+// PIPELINE
+const totalDeposistsUSD = movements
+  .filter(mov => mov > 0)
+  .map(mov => mov * eurToUsd)
+  .reduce((acc, mov) => acc + mov, 0);
+console.log(totalDeposistsUSD);
+
+//
+
+//
+
+//
+
+//
+
+//
+
+//
+
 /* 
 Let's go back to Julia and Kate's study about dogs. This time, they want to convert dog ages to human ages and calculate the average age of the dogs in their study.
 
@@ -155,16 +199,20 @@ TEST DATA 2: [16, 6, 10, 5, 6, 1, 4]
 
 */
 
-const calcAverageHumanAge = function (ages) {
+const calcAverageHumanAge2 = function (ages) {
   const humanAges = ages.map(age => (age <= 2 ? 2 * age : 16 + age * 4));
   const adults = humanAges.filter(age => age >= 18);
-  console.log(humanAges);
-  console.log(adults);
 
-  const average = adults.reduce((acc, age) => acc + age, 0);
+  const average2 = adults.reduce((acc, age) => acc + age, 0);
 
-  return average;
+  return average2;
 };
+
+const calcAverageHumanAge = ages =>
+  ages
+    .map(age => (age <= 2 ? 2 * age : 16 + age * 4))
+    .filter(age => age >= 18)
+    .reduce((acc, age, i, arr) => acc + age / arr.length, 0);
 
 const avg1 = calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
 const avg2 = calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]);
