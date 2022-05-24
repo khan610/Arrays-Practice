@@ -189,6 +189,7 @@ btnClose.addEventListener('click', function (e) {
   console.log('Delete');
 });
 
+console.log('Khan will be back');
 //////////////////////////////////////////////////////////////////////////
 // Find Method
 
