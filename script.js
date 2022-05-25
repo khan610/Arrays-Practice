@@ -124,13 +124,13 @@ createUsernames(accounts);
 
 const updateUI = function (acc) {
   // Display movements
-  displayMovements(currentAccount.movements);
+  displayMovements(acc.movements);
 
   // Display balance
-  calcDisplayBalance(currentAccount);
+  calcDisplayBalance(acc);
 
   // Display summary
-  calcDisplaySummary(currentAccount);
+  calcDisplaySummary(acc);
 };
 
 // Event handler
@@ -186,10 +186,28 @@ btnTransfer.addEventListener('click', function (e) {
 
 btnClose.addEventListener('click', function (e) {
   e.preventDefault();
-  console.log('Delete');
+
+  if (
+    inputCloseUsername.value === currentAccount.username &&
+    Number(inputClosePin.value) === currentAccount.pin
+  ) {
+    const index = accounts.findIndex(
+      acc => acc.username === currentAccount.username
+    );
+
+    accounts.splice(index, 1);
+
+    containerApp.style.opacity = 0;
+  }
+
+  inputCloseUsername.value = inputClosePin.value = '';
 });
 
-console.log('Khan will be back');
+console.log(movements);
+console.log(movements.includes(-130));
+
+const anyDeposits = movements.some(mov => mov > 5000);
+
 //////////////////////////////////////////////////////////////////////////
 // Find Method
 
