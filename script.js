@@ -184,6 +184,23 @@ btnTransfer.addEventListener('click', function (e) {
   }
 });
 
+btnLoan.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  const amount = Number(inputLoanAmount.value);
+
+  if (
+    amount > 0 &&
+    currentAccount.movements.some(mov => mov >= (amount / 10) * 0.1)
+  ) {
+    // Add movement
+    currentAccount.movements.push(amount);
+
+    // Update UI
+    updateUI(currentAccount);
+  }
+});
+
 btnClose.addEventListener('click', function (e) {
   e.preventDefault();
 
@@ -202,11 +219,6 @@ btnClose.addEventListener('click', function (e) {
 
   inputCloseUsername.value = inputClosePin.value = '';
 });
-
-console.log(movements);
-console.log(movements.includes(-130));
-
-const anyDeposits = movements.some(mov => mov > 5000);
 
 //////////////////////////////////////////////////////////////////////////
 // Find Method
@@ -459,3 +471,18 @@ TEST DATA 2: [16, 6, 10, 5, 6, 1, 4]
 // currenciesUnique.forEach(function (value, _, map) {
 //   console.log(`${value} : ${value}`);
 // });
+
+console.log(movements);
+
+// EQUALITY
+console.log(movements.includes(-130));
+
+// SOME: CONDITION
+console.log(movements.some(mov => mov === -130));
+
+const anyDeposits = movements.some(mov => mov > 0);
+console.log(anyDeposits);
+
+// EVERY
+console.log(movements.every(mov => mov > 0));
+console.log(account4.movements.every(mov => mov > 0));
